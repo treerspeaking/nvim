@@ -1,0 +1,31 @@
+return {
+  "nvim-lualine/lualine.nvim",
+  optional = true,
+  opts = function(_, opts)
+    -- if not vim.g.trouble_lualine then
+    --   table.insert(opts.sections.lualine_c, { "navic", color_correction = "dynamic" })
+    -- end
+    -- table.insert(opts.sections.lualine_x, {
+    --   "venv-selector",
+    --   cond = function()
+    --     return vim.bo.filetype == "python"
+    --   end,
+    -- })
+    -- require("lualine").setup({
+    sections = {
+      lualine_a = { "mode" },
+      lualine_b = { "branch", "diff", "diagnostics" },
+      lualine_c = { "filename" },
+      lualine_x = {
+        "venv-selector", -- This is what makes lualine call the function in options.statusline_func.lualine
+        "encoding",
+        "fileformat",
+        "filetype",
+      },
+      lualine_y = { "progress" },
+      lualine_z = { "location" },
+    }
+    -- })
+    -- opts.log_level = "trace"
+  end,
+}
