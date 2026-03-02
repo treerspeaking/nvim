@@ -1,0 +1,24 @@
+-- return {
+--   "neovim/nvim-lspconfig",
+--   opts = {
+--     servers = {
+--       vtsls = {
+--         settings = {
+--           javascript = {
+--             implicitProjectConfig = {
+--               checkJs = false,
+--               include = { "src/**/*" },
+--             },
+--           },
+--           typescript = {
+--             implicitProjectConfig = {
+--               strictNullChecks = false,
+--               include = { "src/**/*" },
+--             },
+--           },
+--         },
+--       },
+--     },
+--   },
+-- }
+return {}
