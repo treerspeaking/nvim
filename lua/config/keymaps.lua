@@ -10,12 +10,13 @@
 --
 local map = LazyVim.safe_keymap_set
 -- vim.keymap.del("n", "<F1>", { silent = true })
-map("x", "<C-j>", "<Esc>", { desc = "switch mode to Normal: Ctrl + J" })
-map("v", "<C-j", "<Esc>", { desc = "switch mode to Normal: Ctrl + J" })
-
-map({ "n", "v" }, "d", '"_d', { desc = "Delete (no clipboard)" })
-map({ "n", "v" }, "D", '"_D', { desc = "Delete to line end (no clipboard)" })
-map({ "n", "x" }, ";", "$", { desc = "To End of line" })
-map({ "n", "x" }, "f", "^", { desc = "Jump to first non-blank" })
-map("n", "<C-e>", "<C-e>j", { desc = "Scroll down and move cursor down" })
-map("n", "<C-y>", "<C-y>j", { desc = "Scroll down and move cursor down" })
+vim.keymap.set("x", "<C-j>", "<Esc>", { desc = "switch mode to Normal: Ctrl + J" })
+vim.keymap.set("v", "<C-j", "<Esc>", { desc = "switch mode to Normal: Ctrl + J" })
+-- vim.keymap.set("t", "<C-j>", [[<C-\><C-n>]], { desc = "Switch mode to Normal" })
+vim.keymap.set("t", "<Esc>", [[<C-\><C-n>]], { desc = "Exit terminal mode with Escape" })
+vim.keymap.set({ "n", "v" }, "d", '"_d', { desc = "Delete (no clipboard)" })
+vim.keymap.set({ "n", "v" }, "D", '"_D', { desc = "Delete to line end (no clipboard)" })
+vim.keymap.set({ "n", "x" }, ";", "$", { desc = "To End of line" })
+vim.keymap.set({ "n", "x" }, "f", "^", { desc = "Jump to first non-blank" })
+vim.keymap.set("n", "<C-e>", "<C-e>j", { desc = "Scroll down and move cursor down" })
+-- map("t", "<space>ft", '<Cmd>execute v:count . "ToggleTerm"<CR>', { noremap = true, desc = "Toggle Terminal" })

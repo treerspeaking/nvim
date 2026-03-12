@@ -60,6 +60,8 @@ return {
 
     dap = require("dap")
 
+    dap.set_log_level("TRACE")
+
     if not dap.adapters["pwa-node"] then
       dap.adapters["pwa-node"] = {
         type = "server",
