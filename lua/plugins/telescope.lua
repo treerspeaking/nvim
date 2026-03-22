@@ -36,4 +36,24 @@
 --   end,
 -- }
 --
-return {}
+return {
+  "nvim-telescope/telescope.nvim",
+  keys = {
+    -- { "<leader>sg", LazyVim.pick("live_grep", { root = false }), desc = "Grep (cwd)" },
+    -- { "<leader>sG", LazyVim.pick("live_grep"), desc = "Grep (Root Dir)" },
+    {
+      "<leader>sg",
+      function()
+        require("telescope").extensions.live_grep_args.live_grep_args()
+      end,
+      desc = "Grep with Args (cwd)",
+    },
+    {
+      "<leader>sG",
+      function()
+        require("telescope").extensions.live_grep_args.live_grep_args({ cwd = LazyVim.root() })
+      end,
+      desc = "Grep with Args (Root Dir)",
+    },
+  },
+}

@@ -8,21 +8,34 @@ end
 
 local lsp = vim.g.lazyvim_python_lsp or "pyright"
 local ruff = vim.g.lazyvim_python_ruff or "ruff"
+local util = require("lspconfig.util")
+
+local root_files = {
+  ".git",
+  "pyrightconfig.json",
+  "pyproject.toml",
+  "setup.py",
+  "setup.cfg",
+  "requirements.txt",
+  "Pipfile",
+}
 
 return {
-  recommended = function()
-    return LazyVim.extras.wants({
-      ft = "python",
-      root = {
-        "pyproject.toml",
-        "setup.py",
-        "setup.cfg",
-        "requirements.txt",
-        "Pipfile",
-        "pyrightconfig.json",
-      },
-    })
-  end,
+  -- recommended = function()
+  --   return LazyVim.extras.wants({
+  --     ft = "python",
+  --     -- The order does not matter and will always be bottom up
+  --     root = {
+  --       ".git",
+  --       "setup.py",
+  --       "setup.cfg",
+  --       "requirements.txt",
+  --       -- "pyproject.toml",
+  --       "Pipfile",
+  --       "pyrightconfig.json",
+  --     },
+  --   })
+  -- end,
   {
     "nvim-treesitter/nvim-treesitter",
     opts = { ensure_installed = { "ninja", "rst" } },
@@ -31,6 +44,10 @@ return {
     "neovim/nvim-lspconfig",
     opts = {
       servers = {
+        pyright = {
+          root_markers = root_files,
+        },
+
         ruff = {
           cmd_env = { RUFF_TRACE = "messages" },
           init_options = {

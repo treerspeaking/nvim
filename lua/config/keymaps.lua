@@ -19,4 +19,5 @@ vim.keymap.set({ "n", "v" }, "D", '"_D', { desc = "Delete to line end (no clipbo
 vim.keymap.set({ "n", "x" }, ";", "$", { desc = "To End of line" })
 vim.keymap.set({ "n", "x" }, "f", "^", { desc = "Jump to first non-blank" })
 vim.keymap.set("n", "<C-e>", "<C-e>j", { desc = "Scroll down and move cursor down" })
+vim.keymap.set("n", "<C-y>", "<C-y>k", { desc = "Scroll up and move cursor up" })
 -- map("t", "<space>ft", '<Cmd>execute v:count . "ToggleTerm"<CR>', { noremap = true, desc = "Toggle Terminal" })
