@@ -5,6 +5,7 @@
 return {
   "folke/snacks.nvim",
   opts = {
+    zen = { enabled = false },
     terminal = { enabled = false },
     picker = {
       ignored = true,

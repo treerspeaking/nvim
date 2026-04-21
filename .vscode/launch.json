@@ -2,19 +2,12 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Test attach",
+      "console": "integratedTerminal",
+      "name": "test my custom launch.json",
+      "program": "${file}",
       "type": "python",
-      "request": "attach",
-      "connect": {
-        "host": "localhost",
-        "port": 9876
-      },
-      "pathMappings": [
-        {
-          "localRoot": "${workspaceFolder}"
-        }
-      ],
-      "justMyCode": true
+      "request": "launch"
     }
   ]
 }
+

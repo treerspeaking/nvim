@@ -20,4 +20,22 @@ vim.keymap.set({ "n", "x" }, ";", "$", { desc = "To End of line" })
 vim.keymap.set({ "n", "x" }, "f", "^", { desc = "Jump to first non-blank" })
 vim.keymap.set("n", "<C-e>", "<C-e>j", { desc = "Scroll down and move cursor down" })
 vim.keymap.set("n", "<C-y>", "<C-y>k", { desc = "Scroll up and move cursor up" })
+vim.keymap.set("n", "<C-q>", "<C-y>k", { desc = "Scroll up and move cursor up" })
+
+-- Scroll with Shift + Arrow keys
+-- We use pcall(vim.keymap.del, ...) to ensure any existing mappings are removed first if they exist
+pcall(vim.keymap.del, "n", "<S-Down>")
+pcall(vim.keymap.del, "n", "<S-Up>")
+pcall(vim.keymap.del, "i", "<S-Down>")
+pcall(vim.keymap.del, "i", "<S-Up>")
+pcall(vim.keymap.del, "v", "<S-Down>")
+pcall(vim.keymap.del, "v", "<S-Up>")
+
+vim.keymap.set("n", "<S-Down>", "<C-e>j", { desc = "Scroll down and move cursor down" })
+vim.keymap.set("n", "<S-Up>", "<C-y>k", { desc = "Scroll up and move cursor up" })
+-- vim.keymap.set("n", "<C-Down>", "<C-e>j", { desc = "Scroll down and move cursor down" })
+-- vim.keymap.set("n", "<C-Up>", "<C-y>k", { desc = "Scroll up and move cursor up" })
+
+-- Optional: Remove the residual visual mode mapping from LazyVim
+pcall(vim.keymap.del, "v", "<C-q>")
 -- map("t", "<space>ft", '<Cmd>execute v:count . "ToggleTerm"<CR>', { noremap = true, desc = "Toggle Terminal" })

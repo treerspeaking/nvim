@@ -13,7 +13,7 @@ local util = require("lspconfig.util")
 local root_files = {
   ".git",
   "pyrightconfig.json",
-  "pyproject.toml",
+  -- "pyproject.toml",
   "setup.py",
   "setup.cfg",
   "requirements.txt",
