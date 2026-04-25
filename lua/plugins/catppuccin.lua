@@ -14,6 +14,8 @@ return {
           information = { "undercurl" },
         },
       },
+
+      auto_integrations = true,
       integrations = {
         aerial = true,
         alpha = true,
@@ -56,7 +58,7 @@ return {
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "catppuccin",
+      colorscheme = "catppuccin-mocha",
     },
   },
 }
@@ -109,4 +111,3 @@ return {
 --     },
 --   },
 -- }
-
