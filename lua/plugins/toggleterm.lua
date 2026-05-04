@@ -1,6 +1,22 @@
 return {
   "akinsho/toggleterm.nvim",
   version = "*",
+  opts = {
+    on_open = function(term)
+      if term.direction == "horizontal" or term.direction == "vertical" then
+        vim.schedule(function()
+          vim.cmd("wincmd =")
+        end)
+      end
+    end,
+    on_close = function(term)
+      if term.direction == "horizontal" or term.direction == "vertical" then
+        vim.schedule(function()
+          vim.cmd("wincmd =")
+        end)
+      end
+    end,
+  },
   config = function(_, opts)
     require("toggleterm").setup(opts)
     vim.keymap.set(

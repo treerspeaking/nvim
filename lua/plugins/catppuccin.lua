@@ -5,7 +5,6 @@ return {
     name = "catppuccin",
     opts = {
       flavour = "mocha",
-      colorscheme = "catppuccin",
       lsp_styles = {
         underlines = {
           errors = { "undercurl" },
