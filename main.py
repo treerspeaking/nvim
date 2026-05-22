@@ -1,14 +1,6 @@
-import numpy as np
+i = 0
 
-a = np.array([1, 2, 3])
+while(i < 100):
+    i+=1
+    print(i)
 
-print(a)
-print("whjdshfjkhds")
-
-
-class SomeThing:
-    def __init__(self):
-        def st():
-            pass
-
-        pass

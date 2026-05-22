@@ -8,23 +8,27 @@ return {
   },
   opts = {
     remote = {
-      copy_dirs = {
-        config = {
-          base = vim.fn.stdpath("config"),
-          dirs = "*",
-          compression = {
-            enabled = true,
-            additional_opts = { "--exclude-vcs" },
-          },
-        },
-        data = {
-          base = vim.fn.stdpath("data"),
-          dirs = { "lazy" },
-          compression = {
-            enabled = true,
-          },
-        },
-      },
+      -- copy_dirs = {
+      --   config = {
+      --     base = vim.fn.stdpath("config"),
+      --     dirs = "*",
+      --     compression = {
+      --       enabled = true,
+      --       additional_opts = { "--exclude-vcs" },
+      --     },
+      --   },
+      --   data = {
+      --     base = vim.fn.stdpath("data"),
+      --     dirs = { "lazy" },
+      --     compression = {
+      --       enabled = true,
+      --     },
+      --   },
+      -- },
     },
+    client_callback = function(port, _)
+      vim.cmd("tabnew")
+      vim.fn.jobstart(("nvim --server localhost:%s --remote-ui"):format(port))
+    end,
   },
 }
