@@ -9,6 +9,14 @@ return {
   ---@type render.md.UserConfig
 
   opts = {
+    anti_conceal = {
+      enabled = false,
+    },
+    win_options = {
+      concealcursor = {
+        rendered = "n", -- Keep concealed in Normal mode. Will reveal in Insert and Visual modes.
+      },
+    },
     latex = {
 
       enabled = true,

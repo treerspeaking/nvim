@@ -6,3 +6,4 @@ vim.o.tabstop = 4 -- Number of spaces a tab counts for
 vim.o.softtabstop = 4 -- Number of spaces for a tab during editing
 vim.o.shiftwidth = 4 -- Number of spaces for each indent level
 vim.o.expandtab = true -- Convert tabs to spaces
+vim.opt.conceallevel = 2
