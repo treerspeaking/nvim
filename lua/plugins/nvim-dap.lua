@@ -88,6 +88,7 @@ end
 
 return {
   "mfussenegger/nvim-dap",
+  event = "VeryLazy",
   recommended = true,
   desc = "Debugging support. Requires language specific adapters to be configured. (see lang extras)",
 

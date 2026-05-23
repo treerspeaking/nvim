@@ -1,5 +1,6 @@
 return {
   "ekickx/clipboard-image.nvim",
+  event = "VeryLazy",
   init = function()
     -- Workaround for neovim 0.10+ where 'health' module is removed
     if not package.loaded["health"] then

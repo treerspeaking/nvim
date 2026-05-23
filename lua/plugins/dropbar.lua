@@ -1,6 +1,7 @@
 return {
   "Bekaboo/dropbar.nvim",
   -- optional, but required for fuzzy finder support
+  event = "VeryLazy",
   dependencies = {
     "nvim-telescope/telescope-fzf-native.nvim",
     build = "make",
@@ -8,8 +9,7 @@ return {
   opts = {
     bar = {
       sources = function(buf, _)
-   
-                local sources = require("dropbar.sources")
+        local sources = require("dropbar.sources")
 
         if vim.bo[buf].buftype == "terminal" then
           return { sources.terminal }

@@ -8,7 +8,7 @@ end
 
 local lsp = vim.g.lazyvim_python_lsp or "pyright"
 local ruff = vim.g.lazyvim_python_ruff or "ruff"
-local util = require("lspconfig.util")
+-- local util = require("lspconfig.util")
 
 local root_files = {
   ".git",

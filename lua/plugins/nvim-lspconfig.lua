@@ -1,6 +1,7 @@
 return {
   {
     "neovim/nvim-lspconfig",
+    event = "VeryLazy",
     opts = {
       servers = {
         lemminx = {}, -- For XML

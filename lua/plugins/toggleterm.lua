@@ -1,6 +1,7 @@
 return {
   "akinsho/toggleterm.nvim",
   version = "*",
+  event = "VeryLazy",
   opts = {
     on_open = function(term)
       if term.direction == "horizontal" or term.direction == "vertical" then
