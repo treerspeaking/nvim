@@ -28,7 +28,7 @@ return { -- The task runner we use
             "bash",
             "-c",
             mkdir_cmd
-              .. "g++ "
+              .. "g++ -g -O0 "
               .. vim.fn.shellescape(file)
               .. " -o "
               .. vim.fn.shellescape(outfile)
@@ -40,7 +40,7 @@ return { -- The task runner we use
             "bash",
             "-c",
             mkdir_cmd
-              .. "gcc "
+              .. "gcc -g "
               .. vim.fn.shellescape(file)
               .. " -o "
               .. vim.fn.shellescape(outfile)
@@ -68,7 +68,7 @@ return { -- The task runner we use
             "bash",
             "-c",
             mkdir_cmd
-              .. "rustc "
+              .. "rustc -g "
               .. vim.fn.shellescape(file)
               .. " -o "
               .. vim.fn.shellescape(outfile)

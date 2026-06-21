@@ -6,7 +6,7 @@ return {
   ---@module "auto-session"
   ---@type AutoSession.Config
   opts = {
-    suppressed_dirs = { "~/", "~/Projects", "~/Downloads", "/" },
+    suppressed_dirs = { "~/", "~/Projects", "~/Downloads", "/", "~/.local/share/nvim/leetcode" },
     cwd_change_handling = true,
     post_cwd_changed_cmds = {
       function()

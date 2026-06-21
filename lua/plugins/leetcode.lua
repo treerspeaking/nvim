@@ -7,6 +7,8 @@ return {
     "MunifTanjim/nui.nvim",
   },
   opts = {
-    -- configuration goes here
+    editor = {
+      reset_previous_code = false,
+    },
   },
 }

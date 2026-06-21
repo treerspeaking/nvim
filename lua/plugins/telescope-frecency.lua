@@ -5,4 +5,11 @@ return {
   config = function()
     require("telescope").load_extension("frecency")
   end,
+  keys = {
+    {
+      "<leader>fr",
+      "<cmd>Telescope frecency<cr>",
+      desc = "Telescope Frecency",
+    },
+  },
 }

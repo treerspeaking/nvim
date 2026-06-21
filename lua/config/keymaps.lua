@@ -34,6 +34,7 @@ pcall(vim.keymap.del, "v", "<S-Up>")
 vim.keymap.set("n", "<S-Down>", "<C-e>j", { desc = "Scroll down and move cursor down" })
 vim.keymap.set("n", "<S-Up>", "<C-y>k", { desc = "Scroll up and move cursor up" })
 vim.keymap.set("x", "p", '"_dP', { desc = "Paste without replacing clipboard" })
+vim.keymap.set({ "n", "x" }, "s", "<Nop>")
 -- vim.keymap.set("n", "<C-Down>", "<C-e>j", { desc = "Scroll down and move cursor down" })
 -- vim.keymap.set("n", "<C-Up>", "<C-y>k", { desc = "Scroll up and move cursor up" })
 

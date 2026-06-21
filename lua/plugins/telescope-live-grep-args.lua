@@ -12,6 +12,19 @@ return {
       local telescope = require("telescope")
 
       -- LazyVim passes its default configuration via 'opts'
+      opts.defaults = opts.defaults or {}
+      opts.defaults.vimgrep_arguments = opts.defaults.vimgrep_arguments or {
+        "rg",
+        "--color=never",
+        "--no-heading",
+        "--with-filename",
+        "--line-number",
+        "--column",
+        "--smart-case",
+      }
+      -- Append --ignore-case to force non-case sensitive search by default
+      table.insert(opts.defaults.vimgrep_arguments, "--ignore-case")
+
       -- We merge or extend that configuration here
       telescope.setup(opts)
 
