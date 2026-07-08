@@ -20,12 +20,17 @@ return {
   },
   config = function(_, opts)
     require("toggleterm").setup(opts)
-    vim.keymap.set(
-      "n",
-      "<leader>t",
-      '<Cmd>execute v:count . "ToggleTerm"<CR>',
-      { noremap = true, desc = "Toggle Terminal" }
-    )
+    local which_key = require("which-key")
+    which_key.add({
+      {
+        "<leader>ty",
+        '<Cmd>execute v:count . "ToggleTerm"<CR>',
+        desc = "Toggle Terminal",
+        icon = { icon = "", color = "green" },
+        mode = "n",
+        noremap = true,
+      },
+    })
     vim.keymap.set("t", "<C-h>", [[<Cmd>wincmd h<CR>]], { noremap = true, desc = "Move to left window" })
     vim.keymap.set("t", "<C-j>", [[<Cmd>wincmd j<CR>]], { noremap = true, desc = "Move to down window" })
     vim.keymap.set("t", "<C-k>", [[<Cmd>wincmd k<CR>]], { noremap = true, desc = "Move to up window" })
