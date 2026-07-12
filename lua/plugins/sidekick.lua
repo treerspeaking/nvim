@@ -131,27 +131,27 @@ return {
       mode = { "n", "x" },
       desc = "Sidekick Select Prompt",
     },
-    {
-      "<C-v>",
-      function()
-        local handle = io.popen("ls -t ~/Pictures/*.png 2>/dev/null | head -n 1")
-        if handle then
-          local result = handle:read("*a"):gsub("%s+", "")
-          handle:close()
-          if result ~= "" then
-            if vim.bo.buftype == "terminal" then
-              vim.api.nvim_chan_send(vim.b.terminal_job_id, result)
-            else
-              vim.fn.setreg("+", result)
-              vim.notify("Copied " .. result .. " to clipboard")
-            end
-          else
-            vim.notify("No screenshots found in ~/picture", vim.log.levels.WARN)
-          end
-        end
-      end,
-      mode = { "t" },
-      desc = "Paste latest screenshot",
-    },
+    -- {
+    --   "<C-v>",
+    --   function()
+    --     local handle = io.popen("ls -t ~/Pictures/*.png 2>/dev/null | head -n 1")
+    --     if handle then
+    --       local result = handle:read("*a"):gsub("%s+", "")
+    --       handle:close()
+    --       if result ~= "" then
+    --         if vim.bo.buftype == "terminal" then
+    --           vim.api.nvim_chan_send(vim.b.terminal_job_id, result)
+    --         else
+    --           vim.fn.setreg("+", result)
+    --           vim.notify("Copied " .. result .. " to clipboard")
+    --         end
+    --       else
+    --         vim.notify("No screenshots found in ~/picture", vim.log.levels.WARN)
+    --       end
+    --     end
+    --   end,
+    --   mode = { "t" },
+    --   desc = "Paste latest screenshot",
+    -- },
   },
 }
