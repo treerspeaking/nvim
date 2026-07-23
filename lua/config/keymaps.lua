@@ -47,3 +47,6 @@ pcall(vim.keymap.del, "v", "<C-q>")
 -- pcall(vim.keymap.del, "t", "<C-j>")
 -- pcall(vim.keymap.del, "t", "<C-k>")
 -- pcall(vim.keymap.del, "t", "<C-l>")
+--
+-- Disable recording in nvim
+vim.keymap.set("n", "q", "<Nop>")

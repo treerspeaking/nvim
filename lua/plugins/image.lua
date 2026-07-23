@@ -23,7 +23,7 @@ return {
         enabled = true,
       },
     },
-    max_width_window_percentage = 45, -- Optional: limit image size
-    max_height_window_percentage = 45,
+    max_width_window_percentage = 75, -- Optional: limit image size
+    max_height_window_percentage = 48,
   },
 }

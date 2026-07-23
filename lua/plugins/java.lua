@@ -44,9 +44,27 @@ return {
             mode = "n",
             buffer = args.buf,
             { "<leader>t", group = "test" },
-            { "<leader>tt", function() require("neotest").run.run(vim.fn.expand("%")) end, desc = "Run File (Neotest)" },
-            { "<leader>tr", function() require("neotest").run.run() end, desc = "Run Nearest (Neotest)" },
-            { "<leader>tT", function() require("neotest").run.run(vim.uv.cwd()) end, desc = "Run All Test Files (Neotest)" },
+            {
+              "<leader>tt",
+              function()
+                require("neotest").run.run(vim.fn.expand("%"))
+              end,
+              desc = "Run File (Neotest)",
+            },
+            {
+              "<leader>tr",
+              function()
+                require("neotest").run.run()
+              end,
+              desc = "Run Nearest (Neotest)",
+            },
+            {
+              "<leader>tT",
+              function()
+                require("neotest").run.run(vim.uv.cwd())
+              end,
+              desc = "Run All Test Files (Neotest)",
+            },
           },
         })
       end

@@ -24,6 +24,7 @@ return { -- The task runner we use
         local cmd = { "echo", "Unsupported filetype: " .. ft }
 
         if ft == "cpp" then
+          local cpp_outfile = outfile .. ".out"
           cmd = {
             "bash",
             "-c",
@@ -31,9 +32,9 @@ return { -- The task runner we use
               .. "g++ -g -O0 "
               .. vim.fn.shellescape(file)
               .. " -o "
-              .. vim.fn.shellescape(outfile)
+              .. vim.fn.shellescape(cpp_outfile)
               .. " && "
-              .. vim.fn.shellescape(outfile),
+              .. vim.fn.shellescape(cpp_outfile),
           }
         elseif ft == "c" then
           cmd = {
