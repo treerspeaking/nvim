@@ -50,3 +50,6 @@ pcall(vim.keymap.del, "v", "<C-q>")
 --
 -- Disable recording in nvim
 vim.keymap.set("n", "q", "<Nop>")
+
+-- Snippetize: turn text fields into Tab-through snippet tabstops (:Snippetize, <leader>S)
+require("config.snippetize")
