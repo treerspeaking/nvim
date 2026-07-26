@@ -3,7 +3,6 @@
     "lazyvim.plugins.extras.coding.mini-surround",
     "lazyvim.plugins.extras.coding.nvim-cmp",
     "lazyvim.plugins.extras.dap.core",
-    "lazyvim.plugins.extras.dap.nlua",
     "lazyvim.plugins.extras.editor.aerial",
     "lazyvim.plugins.extras.editor.overseer",
     "lazyvim.plugins.extras.editor.telescope",
@@ -31,4 +30,3 @@
   },
   "version": 8
 }
-
