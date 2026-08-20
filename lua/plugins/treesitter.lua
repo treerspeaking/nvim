@@ -2,7 +2,7 @@ return {
   {
     "nvim-treesitter/nvim-treesitter",
     opts = {
-      ensure_installed = { "latex" },
+      ensure_installed = { "latex", "http" },
     },
   },
 }
