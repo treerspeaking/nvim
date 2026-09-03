@@ -4,7 +4,7 @@
 return {
   {
     "jbyuki/one-small-step-for-vimkind",
-    lazy = false,
+    lazy = true,
     config = function()
       local dap = require("dap")
 

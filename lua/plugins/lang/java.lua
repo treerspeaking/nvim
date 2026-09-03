@@ -81,6 +81,7 @@ return {
   -- nvim-java handles JDTLS setup separately
   {
     "nvim-java/nvim-java",
+    ft = "java",
     config = function()
       require("java").setup()
       vim.lsp.enable("jdtls")
