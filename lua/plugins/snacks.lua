@@ -2,6 +2,13 @@
 --  return {}
 -- end
 
+-- equalize window sizes, like the toggleterm on_open/on_close hooks
+local function equalize()
+  vim.schedule(function()
+    vim.cmd("wincmd =")
+  end)
+end
+
 return {
   "folke/snacks.nvim",
   opts = {
@@ -12,7 +19,11 @@ return {
       sources = {
         files = { hidden = true },
         grep = { hidden = true },
-        explorer = { hidden = true },
+        explorer = {
+          hidden = true,
+          on_show = equalize,
+          on_close = equalize,
+        },
       },
     },
   },

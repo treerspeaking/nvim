@@ -61,6 +61,22 @@ return {
               vim.cmd("wincmd =")
             end)
           end
+
+          -- 4. Equalize windows after the terminal window is closed.
+          -- `hide()` calls `blur()` (`wincmd p`) before closing, which can leave a
+          -- float current (e.g. the snacks explorer picker). Neovim skips its
+          -- `equalalways` pass when the current window is a float, so redo it here.
+          local orig_hide = terminal.hide
+          terminal.hide = function(self)
+            local was_open = self:is_open()
+            local ret = orig_hide(self)
+            if was_open then
+              vim.schedule(function()
+                vim.cmd("wincmd =")
+              end)
+            end
+            return ret
+          end
         end,
       },
     },
@@ -126,32 +142,10 @@ return {
     {
       "<leader>ap",
       function()
-        require("sidekick.cli").prompt()
+  require("sidekick.cli").prompt()
       end,
       mode = { "n", "x" },
       desc = "Sidekick Select Prompt",
     },
-    -- {
-    --   "<C-v>",
-    --   function()
-    --     local handle = io.popen("ls -t ~/Pictures/*.png 2>/dev/null | head -n 1")
-    --     if handle then
-    --       local result = handle:read("*a"):gsub("%s+", "")
-    --       handle:close()
-    --       if result ~= "" then
-    --         if vim.bo.buftype == "terminal" then
-    --           vim.api.nvim_chan_send(vim.b.terminal_job_id, result)
-    --         else
-    --           vim.fn.setreg("+", result)
-    --           vim.notify("Copied " .. result .. " to clipboard")
-    --         end
-    --       else
-    --         vim.notify("No screenshots found in ~/picture", vim.log.levels.WARN)
-    --       end
-    --     end
-    --   end,
-    --   mode = { "t" },
-    --   desc = "Paste latest screenshot",
-    -- },
   },
 }
