@@ -28,7 +28,7 @@ return {
     },
   },
   keys = {
-    { "\\", "<leader>fe", desc = "Explorer NeoTree (Root Dir)", remap = true },
+    { "\\", "<leader>fe", desc = "File Explorer (Root Dir)", remap = true },
     term_terminal = {
       "<esc>",
       vim.cmd("stopinsert"),
