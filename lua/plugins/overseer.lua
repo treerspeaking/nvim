@@ -10,6 +10,11 @@ return { -- The task runner we use
       default_detail = 1,
     },
   },
+  keys = {
+    { "<leader>oo", "<cmd>OverseerToggle!<cr>", desc = "OverseerToggle" },
+    { "<leader>or", "<cmd>OverseerRun<cr>", desc = "OverseerRun" },
+    -- { "<leader>oo", false }, -- unbind <leader>oo bind
+  },
   config = function(_, opts)
     require("overseer").setup(opts)
     require("overseer").register_template({
@@ -28,13 +33,9 @@ return { -- The task runner we use
           cmd = {
             "bash",
             "-c",
-            mkdir_cmd
-              .. "g++ -g -O0 "
-              .. vim.fn.shellescape(file)
-              .. " -o "
-              .. vim.fn.shellescape(cpp_outfile)
-              .. " && "
-              .. vim.fn.shellescape(cpp_outfile),
+            mkdir_cmd .. "g++ -g -O0 -std=c++23 " .. vim.fn.shellescape(file) .. " -o " .. vim.fn.shellescape(
+              cpp_outfile
+            ) .. " && " .. vim.fn.shellescape(cpp_outfile),
           }
         elseif ft == "c" then
           cmd = {
