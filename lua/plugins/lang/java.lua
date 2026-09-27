@@ -83,6 +83,17 @@ return {
     "nvim-java/nvim-java",
     ft = "java",
     config = function()
+      -- spring-boot's only inlay hints are for pom.xml, but its empty replies in .java buffers
+      -- make Neovim draw jdtls's stale hints after edits ("inlay_hint.lua: Invalid 'col': out of range").
+      vim.api.nvim_create_autocmd("LspAttach", {
+        group = vim.api.nvim_create_augroup("spring_boot_no_inlay_hints", { clear = true }),
+        callback = function(args)
+          local client = vim.lsp.get_client_by_id(args.data.client_id)
+          if client and client.name == "spring-boot" then
+            client.server_capabilities.inlayHintProvider = nil
+          end
+        end,
+      })
       require("java").setup()
       vim.lsp.enable("jdtls")
     end,
