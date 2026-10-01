@@ -10,7 +10,7 @@
 --
 local map = LazyVim.safe_keymap_set
 -- vim.keymap.del("n", "<F1>", { silent = true })
-vim.keymap.set("x", "<C-j>", "<Esc>", { desc = "switch mode to Normal: Ctrl + J" })
+vim.keymap.set("x", "<C-j>", "<Esc>", { desc = "Switch mode to Normal: Ctrl + J" })
 -- vim.keymap.set("t", "<C-j>", [[<C-\><C-n>]], { desc = "Switch mode to Normal" })
 vim.keymap.set("t", "<Esc>", [[<C-\><C-n>]], { desc = "Exit terminal mode with Escape" })
 vim.keymap.set({ "n", "x" }, "d", '"_d', { desc = "Delete (no clipboard)" })
@@ -29,6 +29,15 @@ pcall(vim.keymap.del, "i", "<S-Down>")
 pcall(vim.keymap.del, "i", "<S-Up>")
 pcall(vim.keymap.del, "v", "<S-Down>")
 pcall(vim.keymap.del, "v", "<S-Up>")
+
+-- rebind so that this single character will not be put in clipboard
+vim.keymap.set("n", "X", function()
+  vim.cmd.normal({ '"_' .. vim.v.count1 .. "X", bang = true })
+end, { desc = "Delete character before cursor, like backspace (no clipboard)" })
+
+vim.keymap.set("n", "x", function()
+  vim.cmd.normal({ '"_' .. vim.v.count1 .. "x", bang = true })
+end, { desc = "Delete character on cursor, like delete (no clipboard)" })
 
 vim.keymap.set("n", "<S-Down>", "<C-e>j", { desc = "Scroll down and move cursor down" })
 vim.keymap.set("n", "<S-Up>", "<C-y>k", { desc = "Scroll up and move cursor up" })

@@ -8,16 +8,26 @@
 -- e.g. vim.api.nvim_del_augroup_by_name("lazyvim_wrap_spell")
 vim.api.nvim_create_autocmd("TermOpen", {
   pattern = "*",
-  callback = function()
+  callback = function(args)
+    -- sidekick.nvim runs AI CLIs in terminals; don't type into their prompt
+    if vim.b[args.buf].sidekick_cli or vim.bo[args.buf].filetype == "sidekick_terminal" then
+      return
+    end
+
     local venv_selector = require("venv-selector")
     local current_venv = venv_selector.venv()
 
     if current_venv ~= nil and current_venv ~= "" then
       local env_name = vim.fn.fnamemodify(current_venv, ":t")
 
-      local command = string.format("conda activate %s\r", env_name)
-      local term_buf = vim.api.nvim_get_current_buf()
-      local term_chan = vim.api.nvim_buf_get_var(term_buf, "terminal_job_id")
+      local command
+      if venv_selector.source() == "workspace" then
+        command = string.format("source %s/bin/activate\r", env_name)
+      else
+        command = string.format("conda activate %s\r", env_name)
+      end
+
+      local term_chan = vim.b[args.buf].terminal_job_id
 
       if term_chan then
         vim.api.nvim_chan_send(term_chan, command)
