@@ -144,6 +144,7 @@ return {
     opts = {
       options = {
         notify_user_on_venv_activation = true,
+        override_notify = false, -- don't replace vim.notify with nvim-notify (keeps noice/snacks)
         -- log_level = "trace",
       },
       search = {
