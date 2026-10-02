@@ -75,9 +75,14 @@ local function do_format(buf)
     return
   end
 
-  -- Call LazyVim's format without force=true so it doesn't warn if no formatter exists
-  pcall(function()
-    require("lazyvim.util").format.format({ buf = buf })
+  -- Call LazyVim's format without force=true so it doesn't warn if no formatter exists.
+  -- Run it inside `buf`: conform/vim.lsp build the request URI from the *current*
+  -- buffer, so formatting a background buffer would ask the LSP about the wrong
+  -- file and block until timeout ("[LSP][ruff] timeout").
+  vim.api.nvim_buf_call(buf, function()
+    pcall(function()
+      require("lazyvim.util").format.format({ buf = buf })
+    end)
   end)
 
   -- Save the formatting changes silently without triggering autocmds again
