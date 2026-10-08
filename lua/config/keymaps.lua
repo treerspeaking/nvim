@@ -10,7 +10,7 @@
 --
 local map = LazyVim.safe_keymap_set
 -- vim.keymap.del("n", "<F1>", { silent = true })
-vim.keymap.set("x", "<C-j>", "<Esc>", { desc = "Switch mode to Normal: Ctrl + J" })
+vim.keymap.set({ "i", "x" }, "<C-j>", "<Esc>", { desc = "Switch mode to Normal: Ctrl + J" })
 -- vim.keymap.set("t", "<C-j>", [[<C-\><C-n>]], { desc = "Switch mode to Normal" })
 vim.keymap.set("t", "<Esc>", [[<C-\><C-n>]], { desc = "Exit terminal mode with Escape" })
 vim.keymap.set({ "n", "x" }, "d", '"_d', { desc = "Delete (no clipboard)" })
@@ -20,7 +20,8 @@ vim.keymap.set({ "n", "x" }, "f", "^", { desc = "Jump to first non-blank" })
 vim.keymap.set("n", "<C-e>", "<C-e>j", { desc = "Scroll down and move cursor down" })
 vim.keymap.set("n", "<C-y>", "<C-y>k", { desc = "Scroll up and move cursor up" })
 vim.keymap.set("n", "<C-q>", "<C-y>k", { desc = "Scroll up and move cursor up" })
-
+vim.keymap.set("n", "<tab>", "<Nop>", { desc = "disable tab to jump newer cursor position" })
+vim.keymap.set("n", "<C-i>", "<C-i>", { desc = "Still allow <C-i> to jump to newer cursor position" })
 -- Scroll with Shift + Arrow keys
 -- We use pcall(vim.keymap.del, ...) to ensure any existing mappings are removed first if they exist
 pcall(vim.keymap.del, "n", "<S-Down>")
@@ -39,8 +40,12 @@ vim.keymap.set("n", "x", function()
   vim.cmd.normal({ '"_' .. vim.v.count1 .. "x", bang = true })
 end, { desc = "Delete character on cursor, like delete (no clipboard)" })
 
-vim.keymap.set("n", "<S-Down>", "<C-e>j", { desc = "Scroll down and move cursor down" })
-vim.keymap.set("n", "<S-Up>", "<C-y>k", { desc = "Scroll up and move cursor up" })
+-- Probly should use these in the default behavior so that shift would be different from non shift but it is fine
+vim.keymap.set({ "n", "v" }, "<S-Down>", "<C-e>j", { desc = "Scroll down and move cursor down" })
+vim.keymap.set({ "n", "v" }, "<S-Up>", "<C-y>k", { desc = "Scroll up and move cursor up" })
+vim.keymap.set("i", "<S-Down>", "<C-o><C-e><C-o>j", { desc = "Scroll down and move cursor down" })
+vim.keymap.set("i", "<S-Up>", "<C-o><C-y><C-o>k", { desc = "Scroll up and move cursor up" })
+
 vim.keymap.set("x", "p", '"_dP', { desc = "Paste without replacing clipboard" })
 vim.keymap.set({ "n", "x" }, "s", "<Nop>")
 -- vim.keymap.set("n", "<C-Down>", "<C-e>j", { desc = "Scroll down and move cursor down" })
