@@ -11,6 +11,7 @@
 local map = LazyVim.safe_keymap_set
 -- vim.keymap.del("n", "<F1>", { silent = true })
 vim.keymap.set({ "i", "x" }, "<C-j>", "<Esc>", { desc = "Switch mode to Normal: Ctrl + J" })
+vim.keymap.set({ "i" }, "jj", "<Esc>", { desc = "Switch mode to Normal: Ctrl + J" })
 -- vim.keymap.set("t", "<C-j>", [[<C-\><C-n>]], { desc = "Switch mode to Normal" })
 vim.keymap.set("t", "<Esc>", [[<C-\><C-n>]], { desc = "Exit terminal mode with Escape" })
 vim.keymap.set({ "n", "x" }, "d", '"_d', { desc = "Delete (no clipboard)" })
@@ -40,11 +41,32 @@ vim.keymap.set("n", "x", function()
   vim.cmd.normal({ '"_' .. vim.v.count1 .. "x", bang = true })
 end, { desc = "Delete character on cursor, like delete (no clipboard)" })
 
+-- Rebind backspace to <C-x>
+vim.keymap.set("i", "<C-x>", "<BS>", { desc = "Short cut for backspace" })
+vim.keymap.set("n", "<C-x>", function()
+  if vim.fn.col(".") > 1 then
+    vim.cmd.normal({ '"_' .. vim.v.count1 .. "X", bang = true })
+  elseif vim.fn.line(".") > 1 then
+    vim.cmd.normal({ "kgJ", bang = true })
+  end
+end, { desc = "Backspace in normal mode (no clipboard)" })
+
 -- Probly should use these in the default behavior so that shift would be different from non shift but it is fine
-vim.keymap.set({ "n", "v" }, "<S-Down>", "<C-e>j", { desc = "Scroll down and move cursor down" })
-vim.keymap.set({ "n", "v" }, "<S-Up>", "<C-y>k", { desc = "Scroll up and move cursor up" })
-vim.keymap.set("i", "<S-Down>", "<C-o><C-e><C-o>j", { desc = "Scroll down and move cursor down" })
-vim.keymap.set("i", "<S-Up>", "<C-o><C-y><C-o>k", { desc = "Scroll up and move cursor up" })
+-- vim.keymap.set({ "n", "v" }, "<S-Down>", "<C-e>j", { desc = "Scroll down and move cursor down" })
+-- vim.keymap.set({ "n", "v" }, "<S-Up>", "<C-y>k", { desc = "Scroll up and move cursor up" })
+-- vim.keymap.set("i", "<S-Down>", "<C-o><C-e><C-o>j", { desc = "Scroll down and move cursor down" })
+-- vim.keymap.set("i", "<S-Up>", "<C-o><C-y><C-o>k", { desc = "Scroll up and move cursor up" })
+--
+-- Disable these arrow key to make me good at hjkl
+vim.keymap.set({ "n", "v" }, "<S-Down>", "<Nop>", { desc = "Scroll down and move cursor down" })
+vim.keymap.set({ "n", "v" }, "<S-Up>", "<Nop>", { desc = "Scroll up and move cursor up" })
+vim.keymap.set("i", "<S-Down>", "<Nop>", { desc = "Scroll down and move cursor down" })
+vim.keymap.set("i", "<S-Up>", "<Nop>", { desc = "Scroll up and move cursor up" })
+
+vim.keymap.set({ "n", "v", "i" }, "<Up>", "<Nop>", { desc = "Disable Up Arrow key" })
+vim.keymap.set({ "n", "v", "i" }, "<Down>", "<Nop>", { desc = "Disable Down Arrow key" })
+vim.keymap.set({ "n", "v", "i" }, "<Left>", "<Nop>", { desc = "Disable Left Arrow key" })
+vim.keymap.set({ "n", "v", "i" }, "<Right>", "<Nop>", { desc = "Disable Right Arrow key" })
 
 vim.keymap.set("x", "p", '"_dP', { desc = "Paste without replacing clipboard" })
 vim.keymap.set({ "n", "x" }, "s", "<Nop>")
