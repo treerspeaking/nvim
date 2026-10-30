@@ -1,14 +1,15 @@
 return {
-  "ekickx/clipboard-image.nvim",
+  "HakonHarnes/img-clip.nvim",
   event = "VeryLazy",
-  init = function()
-    -- Workaround for neovim 0.10+ where 'health' module is removed
-    if not package.loaded["health"] then
-      package.loaded["health"] = vim.health
-    end
-  end,
-  opts = {},
+  opts = {
+    default = {
+      dir_path = "img",
+      file_name = "%Y-%m-%d-%H-%M-%S",
+      prompt_for_file_name = false,
+    },
+  },
   keys = {
-    { "<leader>p", "<cmd>PasteImg<CR>", mode = { "n" }, { noremap = true, silent = true } },
+    -- suggested keymap
+    { "<leader>p", "<cmd>PasteImage<cr>", desc = "Paste image from system clipboard" },
   },
 }
