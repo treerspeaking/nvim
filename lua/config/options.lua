@@ -10,3 +10,6 @@ vim.o.shiftwidth = 4 -- Number of spaces for each indent level
 vim.o.expandtab = true -- Convert tabs to spaces
 vim.opt.conceallevel = 2
 vim.g.maplocalleader = ","
+
+-- Use typescript server
+vim.g.lazyvim_ts_lsp = "tsc"

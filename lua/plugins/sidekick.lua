@@ -1,7 +1,7 @@
 return {
-  "mateuszsip/sidekick.nvim",
-  branch = "feat/agy-cli",
-  commit = "8350ac42bff9fe9afdcd0438534010ac97739dd1",
+  "folke/sidekick.nvim",
+  -- branch = "feat/agy-cli",
+  -- commit = "8350ac42bff9fe9afdcd0438534010ac97739dd1",
   name = "sidekick.nvim",
   event = "VeryLazy",
   opts = {
@@ -10,9 +10,9 @@ return {
     },
     cli = {
       tools = {
-        antigravity = {
-          native_scroll = true,
-        },
+        -- antigravity = {
+        --   native_scroll = true,
+        -- },
       },
       win = {
         config = function(terminal)

@@ -6,36 +6,39 @@
 --
 -- Or remove existing autocmds by their group name (which is prefixed with `lazyvim_` for the defaults)
 -- e.g. vim.api.nvim_del_augroup_by_name("lazyvim_wrap_spell")
-vim.api.nvim_create_autocmd("TermOpen", {
-  pattern = "*",
-  callback = function(args)
-    -- sidekick.nvim runs AI CLIs in terminals; don't type into their prompt
-    if vim.b[args.buf].sidekick_cli or vim.bo[args.buf].filetype == "sidekick_terminal" then
-      return
-    end
-
-    local venv_selector = require("venv-selector")
-    local current_venv = venv_selector.venv()
-
-    if current_venv ~= nil and current_venv ~= "" then
-      local env_name = vim.fn.fnamemodify(current_venv, ":t")
-
-      local command
-      if venv_selector.source() == "workspace" then
-        command = string.format("source %s/bin/activate\r", env_name)
-      else
-        command = string.format("conda activate %s\r", env_name)
-      end
-
-      local term_chan = vim.b[args.buf].terminal_job_id
-
-      if term_chan then
-        vim.api.nvim_chan_send(term_chan, command)
-        vim.api.nvim_chan_send(term_chan, "clear\r")
-      end
-    end
-  end,
-})
+-- vim.api.nvim_create_autocmd("TermOpen", {
+--   pattern = "*",
+--   callback = function(args)
+--     -- sidekick.nvim runs AI CLIs in terminals; don't type into their prompt
+--     if vim.b[args.buf].sidekick_cli or vim.bo[args.buf].filetype == "sidekick_terminal" then
+--       return
+--     end
+--
+--     local venv_selector = require("venv-selector")
+--     local current_venv = venv_selector.venv()
+--
+--     if current_venv ~= nil and current_venv ~= "" then
+--       local env_name = vim.fn.fnamemodify(current_venv, ":t")
+--
+--       local command
+--       if venv_selector.source() == "workspace" then
+--         command = string.format("source %s/bin/activate\r", env_name)
+--       else
+--         command = string.format("conda activate %s\r", env_name)
+--       end
+--
+--       local term_chan = vim.b[args.buf].terminal_job_id
+--
+--       if term_chan then
+--         vim.api.nvim_chan_send(term_chan, command)
+--         vim.api.nvim_chan_send(term_chan, "clear\r")
+--       end
+--     end
+--   end,
+-- })
+-----------------------------------------------------------------------------------------------------------------------
+-- This entire part a for automate format that i should have study the API and code delete later and use conform.nvim--
+-----------------------------------------------------------------------------------------------------------------------
 
 -- Delete LazyVim's default BufWritePre formatting hook so it doesn't run instantly
 -- We use vim.schedule to ensure this runs after LazyVim finishes creating it
