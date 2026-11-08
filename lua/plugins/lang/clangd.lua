@@ -41,6 +41,8 @@ return {
       servers = {
         -- Ensure mason installs the server
         clangd = {
+          -- clangd has no linux-arm64 release, so use the system clangd there
+          mason = not (vim.uv.os_uname().sysname == "Linux" and vim.uv.os_uname().machine == "aarch64"),
           keys = {
             { "<leader>ch", "<cmd>LspClangdSwitchSourceHeader<cr>", desc = "Switch Source/Header (C/C++)" },
           },

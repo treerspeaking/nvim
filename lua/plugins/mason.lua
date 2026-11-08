@@ -8,7 +8,6 @@ return {
         "github:Crashdummyy/mason-registry",
       },
       ensure_installed = { "roslyn", "html-lsp" },
-
     },
   },
 }
