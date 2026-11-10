@@ -75,6 +75,10 @@ vim.keymap.set({ "n", "x" }, "s", "<Nop>")
 
 -- Optional: Remove the residual visual mode mapping from LazyVim
 pcall(vim.keymap.del, "v", "<C-q>")
+vim.keymap.set("n", "<C-Q>", function()
+  local mc_ns = vim.api.nvim_create_namespace("nvim.multicursor")
+  vim.api.nvim_buf_clear_namespace(0, mc_ns, 0, -1)
+end, { desc = "Clear all multicursor" })
 -- map("t", "<space>ft", '<Cmd>execute v:count . "ToggleTerm"<CR>', { noremap = true, desc = "Toggle Terminal" })
 
 -- Remove terminal window navigation to allow sending <C-h/j/k/l> to remote-nvim

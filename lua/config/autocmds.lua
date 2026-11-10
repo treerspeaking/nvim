@@ -42,103 +42,119 @@
 
 -- Delete LazyVim's default BufWritePre formatting hook so it doesn't run instantly
 -- We use vim.schedule to ensure this runs after LazyVim finishes creating it
-vim.schedule(function()
-  pcall(vim.api.nvim_del_augroup_by_name, "LazyFormat")
-end)
-
--- Global table to keep track of formatting timers per buffer
-
-_G._delayed_format_timers = _G._delayed_format_timers or {}
-
-local delayed_format_group = vim.api.nvim_create_augroup("DelayedFormat", { clear = true })
-
-local function check_format_condition(buf)
-  if not vim.api.nvim_buf_is_valid(buf) then
-    return false
-  end
-
-  -- Ignore special buffers (like neo-tree, terminal) or unmodifiable buffers
-  if vim.bo[buf].buftype ~= "" or not vim.bo[buf].modifiable then
-    return false
-  end
-
-  -- Check if formatting is currently enabled via <leader>uf toggle
-  local ok, format_enabled = pcall(function()
-    return require("lazyvim.util").format.enabled(buf)
-  end)
-  if not ok or not format_enabled then
-    return false
-  end
-
-  return true
-end
-
-local function do_format(buf)
-  if not check_format_condition(buf) then
-    return
-  end
-
-  -- Call LazyVim's format without force=true so it doesn't warn if no formatter exists.
-  -- Run it inside `buf`: conform/vim.lsp build the request URI from the *current*
-  -- buffer, so formatting a background buffer would ask the LSP about the wrong
-  -- file and block until timeout ("[LSP][ruff] timeout").
-  vim.api.nvim_buf_call(buf, function()
-    pcall(function()
-      require("lazyvim.util").format.format({ buf = buf })
-    end)
-  end)
-
-  -- Save the formatting changes silently without triggering autocmds again
-  -- only if the buffer was actually modified (e.g. by the formatter)
-  if vim.bo[buf].modified then
-    vim.api.nvim_buf_call(buf, function()
-      vim.cmd("silent! noautocmd write")
-    end)
-  end
-end
-
--- auto format after 30 seconds if the uf is on
-vim.api.nvim_create_autocmd({ "BufWritePost", "InsertEnter", "InsertLeave", "TextChanged", "TextChangedI" }, {
-  group = delayed_format_group,
-  callback = function(args)
-    local buf = args.buf
-
-    if not check_format_condition(buf) then
-      return
-    end
-
-    -- Cancel the existing timer for this buffer if a new save happens
-    if _G._delayed_format_timers[buf] then
-      _G._delayed_format_timers[buf]:stop()
-      if not _G._delayed_format_timers[buf]:is_closing() then
-        _G._delayed_format_timers[buf]:close()
-      end
-    end
-
-    local uv = vim.uv or vim.loop
-    local timer = uv.new_timer()
-    _G._delayed_format_timers[buf] = timer
-
-    timer:start(
-      30000, -- Timer changes
-      0,
-      vim.schedule_wrap(function()
-        -- Cleanup the timer reference
-        if _G._delayed_format_timers[buf] == timer then
-          _G._delayed_format_timers[buf] = nil
-        end
-        if not timer:is_closing() then
-          timer:close()
-        end
-
-        do_format(buf)
-      end)
-    )
-  end,
-})
-
--- Format immediately if we leave the buffer/vim and a timer is active
--- vim.api.nvim_create_autocmd({ "BufDelete", "BufUnload", "QuitPre" }, {
+-- vim.schedule(function()
+--   pcall(vim.api.nvim_del_augroup_by_name, "LazyFormat")
+-- end)
+--
+-- -- Global table to keep track of formatting timers per buffer
+--
+-- _G._delayed_format_timers = _G._delayed_format_timers or {}
+--
+-- local delayed_format_group = vim.api.nvim_create_augroup("DelayedFormat", { clear = true })
+--
+-- local function check_format_condition(buf)
+--   if not vim.api.nvim_buf_is_valid(buf) then
+--     return false
+--   end
+--
+--   -- Ignore special buffers (like neo-tree, terminal) or unmodifiable buffers
+--   if vim.bo[buf].buftype ~= "" or not vim.bo[buf].modifiable then
+--     return false
+--   end
+--
+--   -- Check if formatting is currently enabled via <leader>uf toggle
+--   local ok, format_enabled = pcall(function()
+--     return require("lazyvim.util").format.enabled(buf)
+--   end)
+--   if not ok or not format_enabled then
+--     return false
+--   end
+--
+--   return true
+-- end
+--
+-- local function do_format(buf)
+--   if not check_format_condition(buf) then
+--     return
+--   end
+--
+--   -- Call LazyVim's format without force=true so it doesn't warn if no formatter exists.
+--   -- Run it inside `buf`: conform/vim.lsp build the request URI from the *current*
+--   -- buffer, so formatting a background buffer would ask the LSP about the wrong
+--   -- file and block until timeout ("[LSP][ruff] timeout").
+--   vim.api.nvim_buf_call(buf, function()
+--     pcall(function()
+--       require("lazyvim.util").format.format({ buf = buf })
+--     end)
+--   end)
+--
+--   -- Save the formatting changes silently without triggering autocmds again
+--   -- only if the buffer was actually modified (e.g. by the formatter)
+--   if vim.bo[buf].modified then
+--     vim.api.nvim_buf_call(buf, function()
+--       vim.cmd("silent! noautocmd write")
+--     end)
+--   end
+-- end
+--
+-- -- auto format after 30 seconds if the uf is on
+-- vim.api.nvim_create_autocmd({ "BufWritePost", "InsertEnter", "InsertLeave", "TextChanged", "TextChangedI" }, {
+--   group = delayed_format_group,
+--   callback = function(args)
+--     local buf = args.buf
+--
+--     if not check_format_condition(buf) then
+--       return
+--     end
+--
+--     -- Cancel the existing timer for this buffer if a new save happens
+--     if _G._delayed_format_timers[buf] then
+--       _G._delayed_format_timers[buf]:stop()
+--       if not _G._delayed_format_timers[buf]:is_closing() then
+--         _G._delayed_format_timers[buf]:close()
+--       end
+--     end
+--
+--     local uv = vim.uv or vim.loop
+--     local timer = uv.new_timer()
+--     _G._delayed_format_timers[buf] = timer
+--
+--     timer:start(
+--       30000, -- Timer changes
+--       0,
+--       vim.schedule_wrap(function()
+--         -- Cleanup the timer reference
+--         if _G._delayed_format_timers[buf] == timer then
+--           _G._delayed_format_timers[buf] = nil
+--         end
+--         if not timer:is_closing() then
+--           timer:close()
+--         end
+--
+--         do_format(buf)
+--       end)
+--     )
+--   end,
+-- })
+--
+-- -- Format immediately if we leave the buffer/vim and a timer is active
+-- -- vim.api.nvim_create_autocmd({ "BufDelete", "BufUnload", "QuitPre" }, {
+-- --   group = delayed_format_group,
+-- --   callback = function(args)
+-- --     local buf = args.buf
+-- --     local timer = _G._delayed_format_timers[buf]
+-- --     if timer then
+-- --       timer:stop()
+-- --       if not timer:is_closing() then
+-- --         timer:close()
+-- --       end
+-- --       _G._delayed_format_timers[buf] = nil
+-- --       do_format(buf)
+-- --     end
+-- --   end,
+-- -- })
+-- --
+-- vim.api.nvim_create_autocmd({ "BufDelete", "QuitPre" }, {
 --   group = delayed_format_group,
 --   callback = function(args)
 --     local buf = args.buf
@@ -154,35 +170,101 @@ vim.api.nvim_create_autocmd({ "BufWritePost", "InsertEnter", "InsertLeave", "Tex
 --   end,
 -- })
 --
-vim.api.nvim_create_autocmd({ "BufDelete", "QuitPre" }, {
-  group = delayed_format_group,
-  callback = function(args)
-    local buf = args.buf
-    local timer = _G._delayed_format_timers[buf]
-    if timer then
-      timer:stop()
-      if not timer:is_closing() then
-        timer:close()
-      end
-      _G._delayed_format_timers[buf] = nil
-      do_format(buf)
-    end
-  end,
-})
+-- -- Format all buffers with pending timers before exiting Vim
+-- vim.api.nvim_create_autocmd("VimLeavePre", {
+--   group = delayed_format_group,
+--   callback = function()
+--     for buf, timer in pairs(_G._delayed_format_timers) do
+--       if timer then
+--         timer:stop()
+--         if not timer:is_closing() then
+--           timer:close()
+--         end
+--         _G._delayed_format_timers[buf] = nil
+--         do_format(buf)
+--       end
+--     end
+--   end,
+-- })
+--
 
--- Format all buffers with pending timers before exiting Vim
-vim.api.nvim_create_autocmd("VimLeavePre", {
-  group = delayed_format_group,
-  callback = function()
-    for buf, timer in pairs(_G._delayed_format_timers) do
-      if timer then
-        timer:stop()
-        if not timer:is_closing() then
-          timer:close()
-        end
-        _G._delayed_format_timers[buf] = nil
-        do_format(buf)
-      end
-    end
-  end,
-})
+--- My autoformat code
+local grp = vim.api.nvim_create_augroup("MyAutocmds", { clear = true })
+-- currently debounce only work for one function as timers_by_buffer is like a local shared scoped so adding anther function require a rescope somehow
+-- learn lua scope properly later
+-- If possible, also return the timers_by_buffer so on quit could call all of the timer
+local debounce_module = require("config.debounce.debounce")
+
+local opts = {
+  trigger_events = { -- See :h events
+    immediate_save = { "FocusLost", "QuitPre", "VimSuspend", "BufLeave" }, -- vim events that trigger an immediate save
+    defer_save = { "InsertLeave", "TextChanged" }, -- vim events that trigger a deferred save (saves after `debounce_delay`)
+    cancel_deferred_save = { "InsertEnter" }, -- vim events that cancel a pending deferred save
+  },
+  debounce_delay = 30000,
+}
+
+---@param fn fun(...: any): any  the function to call later
+---@param ... any                arguments to pass to fn
+---@return fun(): any            a new function that calls fn with those arguments
+local function bind(fn, ...)
+  local args = { ... }
+  return function()
+    return fn(unpack(args))
+  end
+end
+
+--- Determines if the given buffer is modifiable and if the condition from the config yields true for it
+--- @param buf number
+--- @return boolean
+local function is_modifiable(buf)
+  if not vim.bo[buf].modifiable then
+    return false
+  end
+
+  if vim.bo[buf].readonly then
+    return false
+  end
+
+  return true
+end
+
+--- As LazyVim already do auto format with write by default, a write will do a write + auto format of lazy
+--- @param buf number
+local function auto_format(buf)
+  if not is_modifiable(buf) then
+    return
+  end
+  vim.api.nvim_buf_call(buf, function()
+    -- print("Autoformat buffer: " .. buf)
+    vim.cmd("silent! write")
+  end)
+end
+
+--- @param trigger_events table
+--- @param callback_func function(callback_args: vim.api.create_autocmd.callback.args|vim.api.keyset.create_autocmd.callback_args)
+local function create_auto_format_autocmds(trigger_events, callback_func)
+  for _, events in pairs(trigger_events) do
+    vim.api.nvim_create_autocmd(events, {
+      group = grp,
+      nested = true,
+      callback = callback_func,
+    })
+  end
+end
+
+create_auto_format_autocmds(opts.trigger_events.defer_save, function(callback_args)
+  local innerfunc = debounce_module.debounce(bind(auto_format, callback_args.buf), opts.debounce_delay)
+  innerfunc(callback_args.buf)
+end)
+
+create_auto_format_autocmds(opts.trigger_events.cancel_deferred_save, function(callback_args)
+  -- print("Cancel the callback on: " .. callback_args.buf)
+  debounce_module.cancel_timer(callback_args.buf)
+end)
+
+create_auto_format_autocmds(opts.trigger_events.immediate_save, function(callback_args)
+  -- print("Immediately autoformat on buffer: " .. callback_args.buf)
+  debounce_module.cancel_timer(callback_args.buf)
+  auto_format(callback_args.buf)
+end)

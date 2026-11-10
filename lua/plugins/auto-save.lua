@@ -6,6 +6,12 @@ return {
   opts = {
     -- your config goes here
     -- or just leave it empty :)
-    debounce_delay = 1000,
+    trigger_events = { -- See :h events
+      immediate_save = { "FocusLost", "QuitPre", "VimSuspend" }, -- vim events that trigger an immediate save
+      defer_save = { "InsertLeave", "TextChanged", "BufLeave" }, -- vim events that trigger a deferred save (saves after `debounce_delay`)
+      cancel_deferred_save = { "InsertEnter" }, -- vim events that cancel a pending deferred save
+    },
+    noautocmd = true,
+    debounce_delay = 3000,
   },
 }
